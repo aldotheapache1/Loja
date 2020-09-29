@@ -1,0 +1,37 @@
+.card-abrir {
+	padding: 30px 0 0 0;
+	width: 100%;
+	margin: 0 auto;
+}
+	  
+.card-login {
+	padding: 30px 0 0 0;
+	width: 350px;
+	margin: 0 auto;
+}
+
+.card-home {
+	padding: 30px 0 0 0;
+	width: 100%;
+	margin: 0 auto;
+}
+
+.card-consultar {
+	padding: 30px 0 0 0;
+	width: 100%;
+	margin: 0 auto;
+}
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: #292b2c;
+	color: white;
+	text-align: center;
+}
+.container{
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 0 2%;
+}
