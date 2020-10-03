@@ -43,7 +43,7 @@
 						{
 							echo "<table class ='table table-bordered'>";
 							echo "<tr>";
-							echo "<th>ID </th> <th>Nome </th> <th>CPF </th>  <th>Conta</th> <th></th> <th></th> ";
+							echo "<th>ID </th> <th>Nome </th> <th>CPF </th>  <th>Conta</th> <th></th> <th></th> <th></th> ";
 							echo "</tr>";
 
 							while($linha = $resultado->fetch())
@@ -64,7 +64,7 @@
 										}
 										else
 										{
-											echo"<td> R$ ".$linha['divida'].",00</td>";
+											echo"<td> R$ ".number_format($linha['divida'], 2 , ",", ".")."</td>";
 										}
 										
 									}
@@ -74,8 +74,19 @@
 									}
 									else
 									{
-										echo"<td> <a class='btn btn-warning btn-md' href='../Scripts/edit_cliente.php?valor=".$linha['id']."' ><i class='fa fa-cog'></i></a>  </td>";
-									
+										if($_SESSION['tipo'] == 1)
+										{
+											echo"<td> <a class='btn btn-warning btn-md' href='../Scripts/edit_cliente.php?id=".$linha['id']."' ><i class='fa fa-cog'></i></a>  </td>";
+										}
+										else if($_SESSION['tipo'] != 1 and  $linha['tipo'] == 2)
+										{
+											echo"<td> <a class='btn btn-warning btn-md' href='../Scripts/edit_cliente.php?id=".$linha['id']."' ><i class='fa fa-cog'></i></a>  </td>";
+										}
+										else
+										{
+											echo"<td><button class='btn btn-warning btn-md' disabled><i class='fa fa-cog'></i></button>  </td>";
+										}	
+										
 									}
 									if($linha['id'] == 1 or $linha['divida'] != '')
 									{
@@ -84,7 +95,15 @@
 									else
 									{
 										echo"<td> <a class='btn btn-danger btn-md' href='../Scripts/rem_clientes.php?id=".$linha['id']."' ><i class='fa fa-trash'></i></a>  </td>";
+									}
 									
+									if( $linha['tipo'] == 1 and $linha['divida'] != '' and $_SESSION['tipo'] == 1)
+									{
+										echo"<td> <a class='btn btn-success btn-md' href='../Scripts/receber_parcelas.php?id=".$linha['id']."' ><i class='fa fa-money-bill-alt'></i></a>  </td>";
+									}	
+									else
+									{
+										echo"<td></td>";
 									}
 									echo "</tr>";
 								}

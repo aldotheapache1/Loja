@@ -43,11 +43,14 @@
                     </div>
 					<div class="form-group">
                       <label>CPF</label>
-                      <input name="CPF" type="text" class="form-control" placeholder="CPF" maxlength="12" minlength="12" required>
+                      <input name="CPF" type="text" class="form-control" placeholder="CPF" maxlength="12" minlength="12">
+						<div class="text-danger">
+							Não é obrigatório adicionar o CPF
+						</div>
                     </div>
                     <div class="form-group">
 						<input type="radio" id="tipo" name="tipo" value="2" checked="checked">
-						<label for="tipo">À Vista</label><br>
+						<label for="tipo">À vista</label><br>
 						<input type="radio" id="tipo" name="tipo" value="1">
 						<label for="tipo">A prazo</label><br>
                     </div>

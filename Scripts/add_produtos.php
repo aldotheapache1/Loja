@@ -47,7 +47,6 @@
                       <input name="tamanho" type="text" class="form-control" placeholder="Tamanho" required>
                     </div> 
 
-
 					<div class="form-group">
 						<input type="radio" id="categoria" name="categoria" value="Camisa" checked="checked">
 						<label for="categoria">Camisa</label><br>
@@ -90,32 +89,6 @@
 				$categoria = $_POST["categoria"];
 				$quantidade = $_POST["quantidade"];
 
-				/*if(isset($_FILES['arquivo']['name']) && $_FILES["arquivo"]["error"] == 0)
-				{
-					
-					$arquivo_tmp = $_FILES['arquivo']['tmp_name'];
-					$nomea = $_FILES['arquivo']['name'];
-					
-
-					// Pega a extensao
-					$extensao = strrchr($nomea, '.');
-
-					// Converte a extensao para mimusculo
-					$extensao = strtolower($extensao);
-
-		
-						// Cria um nome único para esta imagem
-						// Evita que duplique as imagens no servidor.
-						$novoNome = md5(microtime()) . '.' . $extensao;
-						
-						// Concatena a pasta com o nome
-						$destino = '../Imgs/imagens/' . $novoNome; 
-						
-						// tenta mover o arquivo para o destino
-						@move_uploaded_file( $arquivo_tmp, $destino  );		
-				}*/
-				
-				
 				$imagens = array();
 				$amountFiles = count($_FILES['arquivo']['name']);
 				if($_FILES['arquivo']['name'][0] != ''){
@@ -139,8 +112,6 @@
 					}
 				}
 				
-				
-
 				//$diretorio = $destino;
 				//$sql = "INSERT INTO produto (nome, preco, tamanho, categoria, diretorio, quantidade) VALUES ('$nome','$preco','$tamanho','$categoria','$diretorio', '$quantidade')";
 				$sql = "INSERT INTO produto (nome, preco, tamanho, categoria, quantidade) VALUES ('$nome','$preco','$tamanho','$categoria', '$quantidade')";

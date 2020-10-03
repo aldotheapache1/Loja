@@ -35,7 +35,7 @@
               Acesso ao Sistema
             </div>
             <div class="card-body">
-              <form action="Index.php" method="post">
+              <form action="index.php" method="post">
                 <div class="form-group">
                   <input name="login" type="login" class="form-control" placeholder="Login" required>
                 </div>

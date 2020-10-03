@@ -36,8 +36,6 @@
 			  <button href="#!" class="btn btn-outline-dark btn-md my-0 ml-sm-2" type="submit">Search</button>
 		</form>
 		-->
-		
-		
 		<div class="container">    
 			<div class="row">
 				<div class="card-consultar">
@@ -71,16 +69,19 @@
 									$imagemSingle =executaSQL("SELECT * FROM imagens_produto WHERE produto_id = $linha[id] LIMIT 1");
 									$imagemSingle = $imagemSingle->fetch()['imagem'];
 									
-									echo"<tr onclick='window.location='a''>";
+									echo"<tr>";
 									echo"<td>".$linha['nome']."</td>";
-									echo"<td> R$ ".$linha['preco'].",00</td>";
+									echo"<td> R$ ".number_format($linha['preco'], 2 , ",", ".")."</td>";
 									echo"<td>".$linha['tamanho']."</td>";
 									echo"<td>".$linha['categoria']."</td>";
 									echo"<td>".$linha['quantidade']."</td>";
 									echo "<td><img src='../Imgs/imagens/".$imagemSingle."' width='120'></img></td>";
 									echo"<td> <a class='btn btn-primary btn-md'  href='nova_venda.php?acao=adItem&id=".$linha['id']."' ><i class='fa fa-cart-plus'></i></a>  </td>";
 									echo"<td> <a class='btn btn-warning btn-md'  href='../Scripts/edit_produto.php?id=".$linha['id']."'><i class='fa fa-cog'></i> </a></td>";
-									echo"<td> <a class='btn btn-danger btn-md'  href='../Scripts/rem_produto.php?id=".$linha['id']."' ><i class='fa fa-trash'></i></a>  </td>";
+									if($_SESSION['tipo'] == 1)
+									{
+										echo"<td> <a class='btn btn-danger btn-md'  href='../Scripts/rem_produto.php?id=".$linha['id']."' ><i class='fa fa-trash'></i></a>  </td>";
+									}
 									echo "</tr>";
 
 								}

@@ -47,28 +47,34 @@
 				    </div>
 
 					<div class="col-6 d-flex justify-content-around">
-						<a href="#" style="text-align: center">		
+						<a href="caixa.php" style="text-align: center">		
 							<i class="fas fa-cash-register" style="font-size:50px"></i>
 							<p  >Caixa</p>
 						</a>
 				    </div>
 					<div class="col-6 d-flex justify-content-around">
-						<a href="#" style="text-align: center">	
-							<i class="fa fa-cogs" style="font-size:50px"></i>
-							<p  >Configurações</p>
-						</a>
+						<?php
+							if($_SESSION['tipo'] == 1) 
+							{
+								echo"<a href='configuracoes.php' style='text-align: center'><i class='fas fa-cogs' style='font-size:50px'></i><p>Configurações</p></a>";
+							}
+							else
+							{
+								echo"<a href='' style='text-align: center'><i class='fas fa-ban' style='font-size:50px ; color:red;'></i><p>Configurações</p></a>";		
+							}
+						?>			
 				    </div>
 					<div class="col-6 d-flex justify-content-around">
 						<a href="usuarios.php" style="text-align: center">	
-							<i class="fa fa-users" style="font-size:50px"></i>
+							<i class="fas fa-users" style="font-size:50px"></i>
 							<p  >Usuários</p>
 						</a>
 				    </div>
 					<div class="col-6 d-flex justify-content-around">
 						<a href="clientes.php" style="text-align: center">	
-							<i class="fas fa-user-plus"" style="font-size:50px"></i>
+							<i class="fas fa-user-plus" style="font-size:50px"></i>
 							<p  >Clientes</p>
-						</a>
+						</a>	
 				    </div>
 				  </div>
 				</div>

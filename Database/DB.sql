@@ -37,8 +37,8 @@ CREATE TABLE cliente(
 	CPF VARCHAR(12),
 	divida float, 
 	tipo int,
-	PRIMARY KEY (id),
-	UNIQUE (CPF)
+	PRIMARY KEY (id)
+
 );
 
 CREATE TABLE venda(
@@ -46,7 +46,10 @@ CREATE TABLE venda(
 	valor float,
 	id_cliente int,
 	id_vendedor int,
-	data_hora VARCHAR(50),
+	data_venda VARCHAR(50),
+	hora VARCHAR(50),
+	tipo_venda int,
+	id_caixa int,
 	PRIMARY KEY (id_venda),
 	FOREIGN KEY (id_cliente) REFERENCES cliente(id),
 	FOREIGN KEY (id_vendedor) REFERENCES vendedor(id)
@@ -62,10 +65,24 @@ CREATE TABLE produtos_venda(
 	FOREIGN KEY (id_prod) REFERENCES produto(id)
 );
 
+CREATE TABLE caixa(
+	id int NOT NULL AUTO_INCREMENT,
+	valor float,
+	aberto_fechado int, /*se 1 aberto se 0 fechado*/
+	id_usuario_abertura int,
+	id_usuario_fechamento int,
+	qtd_total_vendas int,
+	data_caixa VARCHAR(50),
+	PRIMARY KEY (id),
+	FOREIGN KEY (id_usuario_abertura) REFERENCES vendedor(id),
+	FOREIGN KEY (id_usuario_fechamento) REFERENCES vendedor(id),
+	UNIQUE (data_caixa)
+);
+
 INSERT INTO vendedor (nome, CPF, login, senha, tipo, vendas) VALUES ('User Admin', '123456789012','admin', 'admin', 1, 'Vendeu 5');
 INSERT INTO vendedor (nome, CPF, login, senha, tipo, vendas) VALUES ('User Comun', '123456789012','user', 'user', 0, 'Vendeu 10');
 INSERT INTO cliente (nome, CPF, tipo) VALUES ('Cliente Padrão', '1', 3);
 INSERT INTO produto (nome, preco, codigo, categoria, descricao, diretorio, quantidade) VALUES ('Camisa Adidas Azul', 150.0, '123', 'Camisa', 'Azul bebê', 'http://localhost/Loja/Imgs/imagens/145bf95dbade7028233fd9be8aa47a57..jpg', 5);
 
 
-desativar o dividas se o cliente tipo diferente de 1 tipo 2 = cliente a vista
+/*desativar o dividas se o cliente tipo diferente de 1 tipo 2 = cliente a vista*/

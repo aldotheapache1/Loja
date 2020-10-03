@@ -1,5 +1,19 @@
 <?php 
 session_start();
+require_once '../Database/functionsDB.php';
+$resultado_caixa = buscarCaixaAberto();
+	if(!isset($_SESSION['login']))
+		{
+			header('location: ../index.php');
+		}
+		
+
+	if($resultado_caixa->rowCount()!=1)
+	{
+		header('location: ../Pages/caixa.php');
+	}		
+	
+$tipoUsuario =$_SESSION['tipo'];
 ini_set('display_errors', 0 );
 error_reporting(0);
 if(!isset($_SESSION['carrinho'])){
@@ -82,12 +96,12 @@ if(isset($_GET['acao'])){
                   <th id="infor-item">Quant</th>
                   <th id="infor-item">SubTotal</th>
                   <th></th>
+				  <th></th>
                 </tr>
               </thead>
               <form  action="?acao=atualizarQtd" method="post">
               <tfoot>
                 <tr>
-              <td colspan="6">
               <tbody>
                 <tr class="odd gradeX">
                   <?php if(count($_SESSION['carrinho']) == 0){?>
@@ -98,74 +112,77 @@ if(isset($_GET['acao'])){
 				  $pdo = DBConnect();
 				  $cliente = $pdo->query("SELECT * FROM cliente");
                   $somaValorItem = 0;
-                   foreach($_SESSION['carrinho'] as $id => $quantidade){
+                  foreach($_SESSION['carrinho'] as $id => $quantidade){
 					$conectar = DBConnect();
-                   $sql   = $conectar->query("SELECT * FROM produto WHERE id= '$id'");
-                  $listItem    = $sql->fetch(PDO::FETCH_OBJ);
-                  $subTotal = $listItem->preco * $quantidade;
-                  $somaValorItem += $listItem->preco * $quantidade;
-                  echo '<tr id="item-carrinho">
-                  <td>'.$listItem->nome.'</td>
-                  <td>R$ '.number_format($listItem->preco, 2, ',', '.').'</td>
-                  <td  id="quant-td"><input  id="quant" type="text" name="atualizar['.$id.']" value="'.$quantidade.'"></td>
-                  <td>R$ '.number_format($subTotal, 2, ',', '.').'</td>
+					$sql   = $conectar->query("SELECT * FROM produto WHERE id= '$id'");
+					$listItem    = $sql->fetch(PDO::FETCH_OBJ);
+					$subTotal = $listItem->preco * $quantidade;
+					$somaValorItem += $listItem->preco * $quantidade;
+					echo '<tr id="item-carrinho">
+					<td>'.$listItem->nome.'</td>
+					<td>R$ '.number_format($listItem->preco, 2, ',', '.').'</td>
+					<td  id="quant-td"><input style="width: 100px;" id="quant" type="number" name="atualizar['.$id.']" value="'.$quantidade.'" min="1" max="'.$listItem->quantidade.'"></td>
+					<td>R$ '.number_format($subTotal, 2, ',', '.').'</td>
 				  
-                  <td>
-                   <a href="?acao=deleleItem&id='.$id.'">
-                  <i id="icon-carrinho" class="fa fa-trash"></i></a>
-                  </td>
-
+					<td>
+						<a href="?acao=deleleItem&id='.$id.'">
+						<i id="icon-carrinho" class="fa fa-trash"></i></a>
+					</td>
+	
                   </tr>';
                       }
                     }
                   ?>
                 <tr>
-                  <td id="total" colspan="6">Total: R$ <?= number_format($somaValorItem, 2, ',', '.');?> </td>
+					<td id="total" colspan="6">Total: R$ <?= number_format($somaValorItem, 2, ',', '.');?> </td>
                 </tr>
 				 <tr>
                  
                 </tr>
                 <tr>              
-                  <td>
+                <td>
                   <button class="btn btn-info"><i class="fa fa-refresh"></i>  Atualizar Quantidade</button>
                   </form>
                 </td>
                 <?php if(isset($id)){?>   
                 <td>
-                  <form action="../Scripts/salvar_pedido.php" method="post">
-
-				  <?php  
-				  if($listItem->quantidade>=$quantidade)
-				  {
-					?>
+				<form action="../Scripts/salvar_pedido.php" method="post">
 						<button class="btn btn-success"><i class="fa fa-save"></i> Finalizar Pedido  </button>
-				    <?php 
-				  }
-				  else
-				  {
-					  ?>
-						<button class="btn btn-danger"><i class="fa fa-save"></i> Estoque Insuficiente  </button>
-				    <?php 
-				  }
-				   ?>
-				    </td>
-					<td>
-						<select id="id_cliente" name="id_cliente">
-							<option >Selecione um cliente</option>
-								<?php if($cliente->rowCount() > 0)
-										{
-											while($linha = $cliente->fetch())
-												{
-													echo "<option value='".$linha['id']."'>".$linha['nome']."</option>";
-												}
-										} 
-								?>	
-						</select>
-                   </form>
-						<div class="text-danger">
-							Não esqueça de selecionar o cliente
-						</div>
-					</td>
+
+				</td>
+				<td>
+					<select id="id_cliente" name="id_cliente">
+						<option >Selecione um cliente</option>
+							<?php if($cliente->rowCount() > 0)
+									{
+										while($linha = $cliente->fetch())
+											{
+												echo "<option value='".$linha['id']."'>".$linha['nome']."</option>";
+											}
+									} 
+							?>	
+					</select>
+			  
+					<div class="text-danger">
+						Não esqueça de selecionar o cliente
+					</div>
+				</td>
+				<?php
+					if($tipoUsuario == 1)
+					{
+					?>
+						<td id="tipo_venda" >
+							<div class="form-group">
+								<input type="radio" id="tipo_venda" name="tipo_venda" value="2" checked="checked">
+								<label for="tipo_venda">À vista</label><br>
+								<input type="radio" id="tipo_venda" name="tipo_venda" value="1">
+								<label for="tipo_venda">A prazo</label><br>
+							</div>
+						</td>
+				<?php		
+					}
+				?>
+				 </form>
                  <td>
                    <a href="?acao=cancelar&id='.$id.'">
                     <button class="btn btn-danger"><i class="fa fa-remove"></i> Limpar Carrinho</button></a>
@@ -180,9 +197,12 @@ if(isset($_GET['acao'])){
                     <button class="btn btn-primary"><i class="fa fa-plus"></i>  Adicionar Produto</button></a>
                   </td>
                 <?php } ?>
-                </tr>
+                </tr> 
               </tbody>
             </table>
+			<div class="text-danger">
+				As parcelas funcionam apenas em clientes cadastrados para compras parceladas
+			</div>
           </div>
         </div>
         </div>

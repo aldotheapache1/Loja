@@ -113,9 +113,6 @@
 			die("erro ao conectar: " . $e->getMessage());
 		}
 	}
-	
-	
-	
 	function buscarCliente()
 	{
 		try
@@ -186,5 +183,103 @@
 			die("erro ao conectar: " . $e->getMessage());
 		}
 	}
+	
+	function abrirCaixa($valor, $id_usuario_abertura, $data_caixa)
+	{
+		try
+		{
+			$conexaoBD = DBConnect();
+			$sql = "INSERT INTO caixa (valor, aberto_fechado, id_usuario_abertura, data_caixa)  VALUES ('$valor', '1', '$id_usuario_abertura', '$data_caixa')";
+			$conexaoBD->exec($sql);
+		}
+		catch(PDOException $e)
+		{
+			die("erro ao conectar: " . $e->getMessage());
+		}
+	}
+	function buscarCaixa()
+	{
+		try
+		{
+			$conexaoBD = DBConnect();
+			$sql = "SELECT * FROM caixa";
+			$resultado = $conexaoBD->query($sql);
+			return $resultado; 
+		}
+		catch(PDOException $e)
+		{
+			die("erro ao conectar: " . $e->getMessage());
+		}
+	}
+	function buscarCaixaAberto()
+	{
+		try
+		{
+			$conexaoBD = DBConnect();
+			$sql = "SELECT * FROM caixa WHERE aberto_fechado='1'";
+			$resultado = $conexaoBD->query($sql);
+			return $resultado; 
+		}
+		catch(PDOException $e)
+		{
+			die("erro ao conectar: " . $e->getMessage());
+		}
+	}
+	function adcionarVendasCaixa($valor, $quantidade)
+	{
+		try
+		{
+			$conexaoBD = DBConnect();
+			$sql = "UPDATE caixa SET valor = '$valor ', qtd_total_vendas = '$quantidade' WHERE aberto_fechado = '1'";
+			$conexaoBD->exec($sql);
+		}
+		catch(PDOException $e)
+		{
+			die("erro ao conectar: " . $e->getMessage());
+		}
+	}
+	function fecharCaixa($id_usuario_fechamento, $idCaixa)
+	{
+		try
+		{
+			$conexaoBD = DBConnect();
+			$sql = "UPDATE caixa SET aberto_fechado = '0', id_usuario_fechamento = '$id_usuario_fechamento' WHERE id = '$idCaixa'";
+			$conexaoBD->exec($sql);
+		}
+		catch(PDOException $e)
+		{
+			die("erro ao conectar: " . $e->getMessage());
+		}
+	}
+	function buscarVendaCaixa($idCaixa)
+	{
+		try
+		{
+			$conexaoBD = DBConnect();
+			$sql = "SELECT * FROM venda WHERE id_caixa = '$idCaixa'";
+			$resultado = $conexaoBD->query($sql);
+			return $resultado; 
+		}
+		catch(PDOException $e)
+		{
+			die("erro ao conectar: " . $e->getMessage());
+		}
+	}
+	
+	function buscarProdutosVenda($id_vend)
+	{
+		try
+		{
+			$conexaoBD = DBConnect();
+			$sql = "SELECT * FROM produtos_venda WHERE id_vend = '$id_vend'";
+			$resultado = $conexaoBD->query($sql);
+			return $resultado; 
+		}
+		catch(PDOException $e)
+		{
+			die("erro ao conectar: " . $e->getMessage());
+		}
+	}
+	
 	
 ?>

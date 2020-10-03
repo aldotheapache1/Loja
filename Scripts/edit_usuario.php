@@ -33,13 +33,13 @@
 
 			<?php 
 				require_once "../Database/functionsDB.php";
-				$id = $_GET['valor'];
+				$id = $_GET['id'];
 				$resultado = buscarUsuarioID($id);
 				for($i=0; $row = $resultado->fetch(); $i++)
 				{
 			?>
 				<div class = "card-abrir">
-					<form  action="edit_usuario.php?valor=<?php echo $id ?>" method = "post">
+					<form  action="edit_usuario.php?id=<?php echo $id ?>" method = "post">
 						<div class="form-group">
 							<input type="hidden" name="id" value="<?php echo $id; ?>" />
 							<label for = "nome">Nome </label>
@@ -65,7 +65,7 @@
 				}
 							if(!empty($_POST))
 							{
-								$_GET['valor'] = '';
+								$_GET['id'] = '';
 								require_once "../Models/Vendedor.php";	
 								$usuario = new Vendedor();
 								$usuario->setNome($_POST["nome"]);

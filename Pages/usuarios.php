@@ -4,8 +4,7 @@
 		{
 			header('location: ../index.php');
 		}
-		$idUsuario = $_COOKIE['idUsuario'];
-		
+		$idUsuario =$_SESSION['id'];
 ?>
 <html>
     <head>
@@ -37,45 +36,78 @@
 				<div class = "col-md-10">	
 					<?php
 						require_once "../Database/functionsDB.php";
-						$resultado = buscarUsuario();
-						
-						if($resultado->rowCount() > 0)
+						if($_SESSION['tipo'] == 1)
 						{
-							echo "<table class ='table table-bordered'>";
-							echo "<tr>";
-							echo "<th>ID </th> <th>Nome </th> <th>CPF </th> <th>Login </th> <th>Senha </th> <th>Tipo </th> <th> </th> <th> </th>";
-							echo "</tr>";
-
-							while($linha = $resultado->fetch())
-								{
-									echo"<tr>";
-									echo"<td>".$linha['id']."</td>";
-									echo"<td>".$linha['nome']."</td>";
-									echo"<td>".$linha['CPF']."</td>";
-									echo"<td>".$linha['login']."</td>";
-									echo"<td>".$linha['senha']."</td>";
-									if($linha['tipo'] == 1)
+							$resultado = buscarUsuario();
+							if($resultado->rowCount() > 0)
+							{
+								echo "<table class ='table table-bordered'>";
+								echo "<tr>";
+								echo "<th>ID </th> <th>Nome </th> <th>CPF </th> <th>Login </th> <th>Senha </th> <th>Tipo </th> <th> </th> <th> </th>";
+								echo "</tr>";
+								while($linha = $resultado->fetch())
 									{
-										echo"<td>Administrador</td>";
+										echo"<tr>";
+										echo"<td>".$linha['id']."</td>";
+										echo"<td>".$linha['nome']."</td>";
+										echo"<td>".$linha['CPF']."</td>";
+										echo"<td>".$linha['login']."</td>";
+										echo"<td>".$linha['senha']."</td>";
+										if($linha['tipo'] == 1)
+										{
+											echo"<td>Administrador</td>";
+										}
+										else
+										{
+											echo"<td>Vendedor</td>";
+										}
+										echo"<td> <a class='btn btn-warning btn-md' href='../Scripts/edit_usuario.php?id=".$linha['id']."' ><i class='fa fa-cog'></i></a>  </td>";
+										if($idUsuario == $linha['id'])
+										{
+											echo"<td><button class='btn btn-danger btn-md' onclick='funcao1()'><i class='fa fa-trash'></i></button>  </td>";
+										}
+										else
+										{
+											echo"<td> <a class='btn btn-danger btn-md' href='../Scripts/rem_usuarios.php?id=".$linha['id']."' ><i class='fa fa-trash'></i></a>  </td>";
+										}
+										
+										echo "</tr>";
 									}
-									else
+								echo "</table>";
+							}
+						}
+						else
+						{
+							$resultado = buscarUsuarioID($idUsuario);
+							if($resultado->rowCount() > 0)
+							{
+								echo "<table class ='table table-bordered'>";
+								echo "<tr>";
+								echo "<th>ID </th> <th>Nome </th> <th>CPF </th> <th>Login </th> <th>Senha </th> <th>Tipo </th> <th> </th>";
+								echo "</tr>";
+								while($linha = $resultado->fetch())
 									{
-										echo"<td>Vendedor</td>";
+										echo"<tr>";
+										echo"<td>".$linha['id']."</td>";
+										echo"<td>".$linha['nome']."</td>";
+										echo"<td>".$linha['CPF']."</td>";
+										echo"<td>".$linha['login']."</td>";
+										echo"<td>".$linha['senha']."</td>";
+										if($linha['tipo'] == 1)
+										{
+											echo"<td>Administrador</td>";
+										}
+										else
+										{
+											echo"<td>Vendedor</td>";
+										}
+										echo"<td> <a class='btn btn-warning btn-md' href='../Scripts/edit_usuario.php?id=".$linha['id']."' ><i class='fa fa-cog'></i></a>  </td>";										
+										echo "</tr>";
 									}
-									echo"<td> <a class='btn btn-warning btn-md' href='../Scripts/edit_usuario.php?valor=".$linha['id']."' ><i class='fa fa-cog'></i></a>  </td>";
-									if($idUsuario == $linha['id'])
-									{
-										echo"<td><button class='btn btn-danger btn-md' onclick='funcao1()'><i class='fa fa-trash'></i></button>  </td>";
-									}
-									else
-									{
-										echo"<td> <a class='btn btn-danger btn-md' href='../Scripts/rem_usuarios.php?id=".$linha['id']."' ><i class='fa fa-trash'></i></a>  </td>";
-									}
-									
-									echo "</tr>";
-								}
-							echo "</table>";
-						}	
+								echo "</table>";
+							}
+						}
+							
 					?>
 					<br/>
 				</div>

@@ -51,7 +51,7 @@
                     </div>
 					<div class="form-group sm">
 					  <label for = "nome">Preço </label>
-                      <input name="preco" type="number" class="form-control" step="any" value="<?php echo $row['preco']; ?>" required>
+                      <input name='preco' type='number' class='form-control' step='any' value='<?php echo $row['preco']; ?>' required>
                     </div>
 					<div class="form-group">
 					  <label for = "nome">Tamanho </label>

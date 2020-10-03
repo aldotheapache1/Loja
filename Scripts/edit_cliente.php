@@ -33,13 +33,13 @@
 
 			<?php 
 				require_once "../Database/functionsDB.php";
-				$id = $_GET['valor'];
+				$id = $_GET['id'];
 				$resultado = buscarClienteID($id);
 				for($i=0; $row = $resultado->fetch(); $i++)
 				{
 			?>
 				<div class = "card-abrir">
-					<form  action="edit_cliente.php?valor=<?php echo $id ?>" method = "post">
+					<form  action="edit_cliente.php?id=<?php echo $id ?>" method = "post">
 						<div class="form-group">
 							<input type="hidden" name="id" value="<?php echo $id; ?>" />
 							<label for = "nome">Nome </label>
@@ -77,15 +77,7 @@
 							}
 							?>
 							
-							<?php 
-							if($row['tipo'] == 1)
-							{
-							?>
-							<label for = "divida">Divída </label>
-							<input type = "text" class="form-control" id = "divida" name = "divida"  maxlength="20" required value="<?php echo $row['divida']; ?>" /> <br/>
-							<?php 
-							}
-							?>
+							
 							<div class="row mt-4">
 								<div class="col-6">
 									<a class="btn btn btn-warning btn-block " href="../Pages/clientes.php">Voltar</a>
@@ -100,7 +92,7 @@
 				}
 							if(!empty($_POST))
 							{
-								$_GET['valor'] = '';
+								$_GET['id'] = '';
 								require_once "../Models/Cliente.php";	
 								$cliente = new Cliente();
 								$cliente->setNome($_POST["nome"]);
@@ -109,8 +101,6 @@
 									$cliente->setCPF($_POST["CPF"]);
 								}
 								$cliente->setTipo($_POST["tipo"]);
-								$cliente->setDivida($_POST["divida"]);
-								//$usuario->setTipo($_POST["tipo"]);
 								
 								updateCliente($cliente, $id);
 								?>
