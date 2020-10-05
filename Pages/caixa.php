@@ -51,14 +51,19 @@
 						{
 							echo "<div class='form-group' style='text-align: center;'>";
 								echo "<input name='valor_abertura' type='number' class='form-control' style='text-align: center; margin-top: 100px;' min='0' placeholder='Valor de abertura do caixa' maxlength='50' required>";
-								echo "<button class='btn btn btn-primary' type='submit' style='margin-top: 50px;' >Abrir caixa</button>";
+								echo "<a href='caixas.php' class='btn btn btn-success' style='margin-top: 10px;'>Listar Caixas</a> </br>";
+								echo "<button class='btn btn btn-primary' type='submit' style='margin-top: 10px;' >Abrir caixa</button>  </br>";
+								echo "<a href='home.php' class='btn btn btn-warning' style='margin-top: 10px;'>Voltar</a>";
 							echo "</div>";
 						}
 						else
 						{
 							echo "<div class='form-group' style='text-align: center;'>";
-									echo "<a href='caixa.php?a=1' class='btn btn btn-Danger' style='margin-top: 100px;'>Fechar caixa</a>";
+									echo "<a href='caixas.php' class='btn btn btn-success' style='margin-top: 100px;'>Listar Caixas</a> </br>";
+									echo "<a href='caixa.php?a=1' class='btn btn btn-Danger' style='margin-top: 10px;'>Fechar caixa</a> </br>";
+									echo "<a href='home.php' class='btn btn btn-warning' style='margin-top: 10px;'>Voltar</a>";
 							echo "</div>";
+
 						}
 					?>
 					</form>

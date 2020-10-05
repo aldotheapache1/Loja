@@ -175,7 +175,20 @@
 		try
 		{
 			$conexaoBD = DBConnect();
-			$sql = "UPDATE cliente SET nome = '". $cliente->getNome() ."', tipo = '". $cliente->getTipo() ."', divida = '". $cliente->getDivida() ."' WHERE id='".$idCliente."'";
+			$sql = "UPDATE cliente SET nome = '". $cliente->getNome() ."', tipo = '". $cliente->getTipo() . "' WHERE id='".$idCliente."'";
+			$conexaoBD->exec($sql);
+		}
+		catch(PDOException $e)
+		{
+			die("erro ao conectar: " . $e->getMessage());
+		}
+	}
+	function receberParcela($cliente, $idCliente)
+	{
+		try
+		{
+			$conexaoBD = DBConnect();
+			$sql = "UPDATE cliente SET divida = '". $cliente->getDivida() . "' WHERE id='".$idCliente."'";
 			$conexaoBD->exec($sql);
 		}
 		catch(PDOException $e)
@@ -274,6 +287,19 @@
 			$sql = "SELECT * FROM produtos_venda WHERE id_vend = '$id_vend'";
 			$resultado = $conexaoBD->query($sql);
 			return $resultado; 
+		}
+		catch(PDOException $e)
+		{
+			die("erro ao conectar: " . $e->getMessage());
+		}
+	}
+	function adcionarRecebido($valor)
+	{
+		try
+		{
+			$conexaoBD = DBConnect();
+			$sql = "UPDATE caixa SET valor = '$valor ' WHERE aberto_fechado = '1'";
+			$conexaoBD->exec($sql);
 		}
 		catch(PDOException $e)
 		{
